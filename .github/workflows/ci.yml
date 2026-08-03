@@ -22,6 +22,12 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby-version }}
+        # 'default' instead of the implicit 'Gemfile.lock': the committed lockfile's
+        # BUNDLED WITH (2.6.9, from whatever Bundler generated it locally) requires
+        # Ruby >= 3.1 and setup-ruby installs that exact version for every matrix leg
+        # by default -- which fails outright on the 3.0 leg. 'default' installs
+        # whichever Bundler each Ruby version actually ships with instead.
+        bundler: default
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Lint
       run: bundle exec standardrb
