@@ -25,7 +25,7 @@ module Rutidy
     STYLE_ALIASES = {
       "documentation" => :fd,
       "spec" => :fs,
-      "vitest" => :fv,
+      "vitest" => :fv
     }.freeze
 
     def self.run(argv, out: $stdout, err: $stderr, stdin: $stdin)
@@ -99,8 +99,10 @@ module Rutidy
 
     def run_rspec(args)
       Tempfile.create(["rutidy", ".json"]) do |tmp|
-        cmd = ["rspec", "--require", "rutidy/formatter", "--format", "Rutidy::Formatter",
-               "--out", tmp.path, *args]
+        cmd = [
+          "rspec", "--require", "rutidy/formatter", "--format", "Rutidy::Formatter",
+          "--out", tmp.path, *args
+        ]
         # `rspec` exits non-zero whenever any example fails -- that's the
         # normal case this tool exists to render, not an error. Only the
         # report ending up empty (rspec never got far enough to write one --

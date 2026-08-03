@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "json"
+require "rspec/core/formatters"
+require "rspec/core/formatters/base_formatter"
 require "rutidy/version"
 
 module Rutidy
@@ -19,14 +21,14 @@ module Rutidy
   # or let `rutidy`'s own CLI wrap that invocation for you.
   class Formatter < RSpec::Core::Formatters::BaseFormatter
     RSpec::Core::Formatters.register self,
-                                      :example_group_started, :example_group_finished,
-                                      :example_passed, :example_failed, :example_pending,
-                                      :dump_summary, :seed, :message, :close
+      :example_group_started, :example_group_finished,
+      :example_passed, :example_failed, :example_pending,
+      :dump_summary, :seed, :message, :close
 
     def initialize(output)
       super
       @hierarchy = []
-      @output_hash = { version: Rutidy::VERSION }
+      @output_hash = {version: Rutidy::VERSION}
     end
 
     def message(notification)
@@ -58,7 +60,7 @@ module Rutidy
         duration: summary.duration,
         example_count: summary.example_count,
         failure_count: summary.failure_count,
-        pending_count: summary.pending_count,
+        pending_count: summary.pending_count
       }
       @output_hash[:summary_line] = summary.totals_line
     end
@@ -92,7 +94,7 @@ module Rutidy
         status: result.status.to_s,
         file_path: example.metadata[:file_path],
         line_number: example.metadata[:line_number],
-        run_time: result.run_time,
+        run_time: result.run_time
       }
       hash[:pending_message] = result.pending_message if result.pending_message
       hash[:exception] = format_exception(example.exception, failure_notification) if failure_notification
@@ -103,7 +105,7 @@ module Rutidy
       {
         class: exception.class.name,
         message: exception.message,
-        backtrace: failure_notification.formatted_backtrace,
+        backtrace: failure_notification.formatted_backtrace
       }
     end
   end

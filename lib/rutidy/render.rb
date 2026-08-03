@@ -25,7 +25,7 @@ module Rutidy
       bright_green: "92",
       yellow: "33",
       cyan: "36",
-      gray: "90",
+      gray: "90"
     }.freeze
 
     FailureEntry = Struct.new(:n, :full, :output)
@@ -91,12 +91,16 @@ module Rutidy
       end
 
       if style == :fv
-        write_vitest_footer(out, colorize, total: total, failed_count: failed_count, pending: pending,
-                                            total_elapsed: total_elapsed, files_total: files_total.size,
-                                            files_failed: files_failed.size)
+        write_vitest_footer(
+          out, colorize,
+          total: total, failed_count: failed_count, pending: pending, total_elapsed: total_elapsed,
+          files_total: files_total.size, files_failed: files_failed.size
+        )
       else
-        write_shared_footer(out, colorize, total: total, failed_count: failed_count, pending: pending,
-                                            total_elapsed: total_elapsed)
+        write_shared_footer(
+          out, colorize,
+          total: total, failed_count: failed_count, pending: pending, total_elapsed: total_elapsed
+        )
       end
 
       failed_count
@@ -106,9 +110,11 @@ module Rutidy
       verdict = failed_count.positive? ? "Test Failed" : "Test Succeeded"
       verdict_color = failed_count.positive? ? :red : :green
       out.puts(colorize.call(verdict_color, verdict))
-      out.puts(colorize.call(verdict_color,
-                              format("Tests Passed: %d failed, %d pending, %d total (%s seconds)",
-                                     failed_count, pending, total, format_seconds(total_elapsed))))
+      out.puts(colorize.call(
+        verdict_color,
+        format("Tests Passed: %d failed, %d pending, %d total (%s seconds)",
+          failed_count, pending, total, format_seconds(total_elapsed))
+      ))
     end
 
     def write_vitest_footer(out, colorize, total:, failed_count:, pending:, total_elapsed:, files_total:, files_failed:)
@@ -187,7 +193,7 @@ module Rutidy
     end
 
     def format_seconds(seconds)
-      seconds < 1 ? format("%.4f", seconds) : format("%.2f", seconds)
+      (seconds < 1) ? format("%.4f", seconds) : format("%.2f", seconds)
     end
 
     def format_vitest_duration_parts(seconds)

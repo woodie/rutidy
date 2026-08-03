@@ -56,10 +56,32 @@ written by inspection against RSpec's real source (`json_formatter.rb`,
 `formatter_support.rb`, all fetched and read, not recalled from memory) -- needs a
 real `bundle install && make check` on the user's own Mac before trusting any of it.
 
+## A real bug the first `bundle install && make check` caught
+
+`formatter.rb` originally subclassed `RSpec::Core::Formatters::BaseFormatter`
+without requiring it first, on the wrong assumption that loading `rspec/core`
+(implicit in running under `rspec` at all) would already have it defined --
+`NameError: uninitialized constant RSpec::Core::Formatters::BaseFormatter` on the
+very first real `make test`. Fixed by requiring `rspec/core/formatters` and
+`rspec/core/formatters/base_formatter` explicitly at the top of the file, matching
+what stock `json_formatter.rb` does (`RSpec::Support.require_rspec_core
+"formatters/base_formatter"` -- not used verbatim here since that helper's relative-
+path resolution is meant for code living inside the rspec-core gem itself, not a
+third-party one). `render.rb`/`cli.rb` have no such dependency and were verified
+directly in the sandbox (`ruby -Ilib`, all four styles, piped stdin, an existing
+report file, `--version`) since they don't need RSpec loaded at all -- only
+`formatter.rb` needed a real `rspec` process to catch this.
+
+Also fixed the same round: ~30 `standardrb` violations (trailing commas in hash/
+array literals, spaces inside `{}`, multi-line argument/array alignment, missing
+ternary parens) -- style-only, no behavior change.
+
 ## Current status
 
-Freshly scaffolded, not yet verified against a real Ruby toolchain. Needs, on your
-Mac:
+Fixes made by inspection (still no `rspec` gem in this sandbox -- see "Sandbox
+limitation" above); `render.rb`/`cli.rb` re-verified via `ruby -Ilib` after the lint
+pass, output unchanged. `formatter.rb`'s actual fix is unverified here. Needs, on
+your Mac:
 
 ```
 cd ~/workspace/rutidy

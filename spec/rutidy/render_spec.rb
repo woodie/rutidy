@@ -6,14 +6,14 @@ require "stringio"
 RSpec.describe Rutidy::Render do
   def sample_examples
     [
-      { hierarchy: %w[Calculator addition] + ["adds two positive numbers"], status: "passed",
-        run_time: 0.001, file_path: "./spec/calculator_spec.rb" },
-      { hierarchy: %w[Calculator addition] + ["adds a negative number"], status: "failed",
-        run_time: 0.002, file_path: "./spec/calculator_spec.rb",
-        exception: { class: "RSpec::Expectations::ExpectationNotMetError",
-                     message: "expected: 4\n     got: 3", backtrace: ["./spec/calculator_spec.rb:12"] } },
-      { hierarchy: %w[Calculator subtraction] + ["is skipped for now"], status: "pending",
-        run_time: 0.0, file_path: "./spec/calculator_spec.rb", pending_message: "Temporarily skipped with xit" },
+      {hierarchy: %w[Calculator addition] + ["adds two positive numbers"], status: "passed",
+       run_time: 0.001, file_path: "./spec/calculator_spec.rb"},
+      {hierarchy: %w[Calculator addition] + ["adds a negative number"], status: "failed",
+       run_time: 0.002, file_path: "./spec/calculator_spec.rb",
+       exception: {class: "RSpec::Expectations::ExpectationNotMetError",
+                   message: "expected: 4\n     got: 3", backtrace: ["./spec/calculator_spec.rb:12"]}},
+      {hierarchy: %w[Calculator subtraction] + ["is skipped for now"], status: "pending",
+       run_time: 0.0, file_path: "./spec/calculator_spec.rb", pending_message: "Temporarily skipped with xit"}
     ]
   end
 
@@ -80,8 +80,8 @@ RSpec.describe Rutidy::Render do
   context "a suite has more than one top-level group" do
     def two_groups
       [
-        { hierarchy: %w[Calculator addition] + ["adds two positive numbers"], status: "passed", run_time: 0.001 },
-        { hierarchy: %w[Formatter] + ["formats a number"], status: "passed", run_time: 0.001 },
+        {hierarchy: %w[Calculator addition] + ["adds two positive numbers"], status: "passed", run_time: 0.001},
+        {hierarchy: %w[Formatter] + ["formats a number"], status: "passed", run_time: 0.001}
       ]
     end
 
@@ -93,7 +93,7 @@ RSpec.describe Rutidy::Render do
 
   context "every example passes" do
     def clean_examples
-      [{ hierarchy: %w[Clean] + ["does the thing"], status: "passed", run_time: 0.001 }]
+      [{hierarchy: %w[Clean] + ["does the thing"], status: "passed", run_time: 0.001}]
     end
 
     it "reports zero failures" do
