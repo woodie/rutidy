@@ -15,6 +15,13 @@ jobs:
     strategy:
       matrix:
         ruby-version: ['3.0', '3.3'] # gemspec's required_ruby_version floor, plus a current version
+    env:
+      # standard/rubocop (the Gemfile's :lint group) aren't installed here --
+      # rubocop's own dependency chain moves its Ruby floor forward faster
+      # than this gem's runtime code does, and lint tooling never ships to
+      # users, so it shouldn't gate whether the 3.0 leg can even bundle
+      # install. See rutidy.gemspec/Gemfile's own comments.
+      BUNDLE_WITHOUT: lint
 
     steps:
     - uses: actions/checkout@v5
@@ -23,13 +30,24 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby-version }}
         # 'default' instead of the implicit 'Gemfile.lock': the committed lockfile's
-        # BUNDLED WITH (2.6.9, from whatever Bundler generated it locally) requires
-        # Ruby >= 3.1 and setup-ruby installs that exact version for every matrix leg
-        # by default -- which fails outright on the 3.0 leg. 'default' installs
-        # whichever Bundler each Ruby version actually ships with instead.
+        # BUNDLED WITH (whatever Bundler generated it locally) can require a newer
+        # Ruby than the 3.0 leg here -- 'default' installs whichever Bundler each
+        # Ruby version actually ships with instead of that single pinned version.
         bundler: default
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-    - name: Lint
-      run: bundle exec standardrb
     - name: Run tests
       run: bundle exec rspec
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.3' # only needs to satisfy rubocop's floor, not the gem's own
+        bundler: default
+        bundler-cache: true
+    - name: Lint
+      run: bundle exec standardrb

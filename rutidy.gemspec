@@ -29,6 +29,10 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  # standard/rubocop live in the Gemfile's :lint group, not here -- rubocop's
+  # own dependency chain (parallel, currently) moves its required_ruby_version
+  # floor forward faster than this gem's own runtime code does, and lint
+  # tooling never ships to users, so it shouldn't force every supported Ruby
+  # version to also satisfy rubocop's floor. See docs/COWORK.md.
   spec.add_development_dependency "rspec", "~> 3.13"
-  spec.add_development_dependency "standard", "~> 1.3"
 end

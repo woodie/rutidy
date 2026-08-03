@@ -76,6 +76,38 @@ Also fixed the same round: ~30 `standardrb` violations (trailing commas in hash/
 array literals, spaces inside `{}`, multi-line argument/array alignment, missing
 ternary parens) -- style-only, no behavior change.
 
+## CI: the Ruby 3.0 matrix leg needed lint split into its own job
+
+Two real, separate CI failures, both only visible from an actual GitHub Actions run
+(not reproducible from this sandbox, which has no `rspec`/`bundle` executables at
+all -- see "Sandbox limitation" above):
+
+1. **`ruby/setup-ruby`'s "Installing Bundler" step failed outright on the `3.0`
+   leg.** By default it installs whatever `BUNDLED WITH` says in the committed
+   `Gemfile.lock` -- `2.6.9` here, from whatever Bundler happened to be on the
+   machine that ran `bundle install` locally -- regardless of which Ruby version
+   the matrix leg is actually running. Bundler `2.6.9` itself requires Ruby
+   `>= 3.1`, so installing it under Ruby `3.0.7` failed before `bundle install`
+   ever ran. Fixed with `bundler: default` on the `setup-ruby` step, which installs
+   whichever Bundler each Ruby version actually ships with instead.
+2. **`bundle install` itself then failed on the `3.0` leg**: `parallel-2.1.0`
+   (a `rubocop`/`standard` transitive dependency) requires Ruby `>= 3.3`, and
+   `bundler-cache: true` runs in deployment mode (frozen lockfile), so it can't
+   silently resolve an older `parallel` for the older Ruby leg -- it just fails.
+   `standard` is dev/lint-only tooling that never ships to users, so there's no
+   real reason it needs to satisfy the same Ruby floor `rutidy`'s own runtime code
+   does. Moved `standard` out of `rutidy.gemspec`'s `add_development_dependency`
+   and into the `Gemfile`'s own `group :lint`; CI's `test` job sets
+   `BUNDLE_WITHOUT: lint` so no matrix leg ever needs to resolve it, and a
+   separate single-Ruby `lint` job (pinned to `3.3`, the version actually running
+   `standardrb`) installs and runs it instead.
+
+**`Gemfile.lock` needs a real `bundle install` on your Mac after this** to pick up
+the `Gemfile`/`gemspec` group change -- commit the regenerated lockfile alongside,
+same as any dependency-shape change (see
+`~/workspace/woodie/docs/COWORK.md`'s "Shared libraries across sibling repos" for
+why that commit can't be skipped or deferred).
+
 ## Current status
 
 Confirmed for real on the user's own Mac: `make check` (`standardrb` + full spec
