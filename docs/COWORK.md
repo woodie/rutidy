@@ -126,3 +126,15 @@ confirmed clean (`Successfully registered gem: rutidy (0.1.0)`), package content
 verified via a real `gem build` + unpack in this sandbox beforehand (see the
 gemspec-allowlist entry above) -- only `LICENSE`, `README.md`, `exe/rutidy`, and
 `lib/**/*.rb` ship, `docs/COWORK.md`/`docs/example.png` correctly excluded.
+GitHub release notes attached from `docs/releases/v0.1.0.md` (`gh release create
+v0.1.0 --notes-file docs/releases/v0.1.0.md`), not left as the bare tag message.
+
+**Adopted outside its own repo:** `humane-ruby`'s `make test` now runs `bundle
+exec rutidy -fs spec` instead of `rspec -fd spec` -- the first real consumer,
+confirming the wrap-`rspec`-directly CLI path (not just the formatter-plus-JSON
+path this repo's own `make test` exercises) against a second, independent spec
+suite. Completes the four-language family on equal footing: `kotidy`/`gorderly`/
+`xctidy`/`rutidy` all render the same `classic`/`fd`/`fs`/`fv` styles now, one per
+language in `~/workspace/netpress`'s `docs/COWORK.md`-adjacent `talks/` posts and
+`public/periodic.js` (`Rt`, replacing the unrelated `gomeleon`/`Gm` entry there --
+`gomeleon` itself is untouched, just no longer listed alongside this family).
