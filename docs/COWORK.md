@@ -78,14 +78,8 @@ ternary parens) -- style-only, no behavior change.
 
 ## Current status
 
-Fixes made by inspection (still no `rspec` gem in this sandbox -- see "Sandbox
-limitation" above); `render.rb`/`cli.rb` re-verified via `ruby -Ilib` after the lint
-pass, output unchanged. `formatter.rb`'s actual fix is unverified here. Needs, on
-your Mac:
-
-```
-cd ~/workspace/rutidy
-bundle install
-make check
-make test
-```
+Confirmed for real on the user's own Mac: `make check` (`standardrb` + full spec
+suite, 25 examples) is clean, and `make test` -- the real end-to-end path, `rspec`
+running with `Rutidy::Formatter` piped into `rutidy`'s own CLI in `-fd` style --
+dogfoods the whole pipeline correctly, real nested tree, real shared footer
+(`Tests Passed: 0 failed, 0 pending, 25 total`). Not yet tagged/released.
