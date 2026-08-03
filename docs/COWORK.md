@@ -80,6 +80,7 @@ ternary parens) -- style-only, no behavior change.
 
 Confirmed for real on the user's own Mac: `make check` (`standardrb` + full spec
 suite, 25 examples) is clean, and `make test` -- the real end-to-end path, `rspec`
-running with `Rutidy::Formatter` piped into `rutidy`'s own CLI in `-fd` style --
-dogfoods the whole pipeline correctly, real nested tree, real shared footer
+running with `Rutidy::Formatter` piped into `rutidy`'s own CLI (`-fs` style, the
+Makefile's own choice) -- dogfoods the whole pipeline correctly, real nested tree,
+real shared footer
 (`Tests Passed: 0 failed, 0 pending, 25 total`). Not yet tagged/released.

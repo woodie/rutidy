@@ -11,7 +11,7 @@ install: build
 test:
 	mkdir -p tmp
 	bundle exec rspec --require rutidy/formatter --format Rutidy::Formatter --out tmp/rutidy-report.json
-	bundle exec exe/rutidy -fd tmp/rutidy-report.json
+	bundle exec exe/rutidy -fs tmp/rutidy-report.json
 
 lint:
 	bundle exec standardrb
