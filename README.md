@@ -108,7 +108,7 @@ from the real stack the runner already maintains, not a guess.
 ```
 make build    # gem build rutidy.gemspec
 make install  # rake install
-make test     # verbose, dogfoods rutidy on its own suite in -fd style
+make test     # verbose, dogfoods rutidy on its own suite in -fs style
 make lint     # standardrb
 make check    # terse: silent on success, full log on failure
 ```
