@@ -5,6 +5,8 @@
 [![Release](https://img.shields.io/github/v/release/woodie/rutidy.svg)](https://github.com/woodie/rutidy/releases/latest)
 [![License](https://img.shields.io/github/license/woodie/rutidy.svg)](LICENSE)
 
+![Example Screenshot](docs/example.png)
+
 RSpec/Mocha/Vitest-style output for RSpec by hooking a real formatter into
 the same tree the runner already builds. See at a glance which spec
 actually failed, in whichever of the four familiar looks reads best for
