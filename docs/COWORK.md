@@ -115,4 +115,7 @@ suite, 25 examples) is clean, and `make test` -- the real end-to-end path, `rspe
 running with `Rutidy::Formatter` piped into `rutidy`'s own CLI (`-fs` style, the
 Makefile's own choice) -- dogfoods the whole pipeline correctly, real nested tree,
 real shared footer
-(`Tests Passed: 0 failed, 0 pending, 25 total`). Not yet tagged/released.
+(`Tests Passed: 0 failed, 0 pending, 25 total`). CI is green on GitHub Actions
+(`test` matrix across Ruby 3.0/3.3, separate `lint` job), including the real
+`3.0`-leg failures above -- both confirmed fixed against actual CI logs, not just
+reasoned about. Not yet tagged/released.
