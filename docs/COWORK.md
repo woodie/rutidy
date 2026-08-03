@@ -118,4 +118,11 @@ real shared footer
 (`Tests Passed: 0 failed, 0 pending, 25 total`). CI is green on GitHub Actions
 (`test` matrix across Ruby 3.0/3.3, separate `lint` job), including the real
 `3.0`-leg failures above -- both confirmed fixed against actual CI logs, not just
-reasoned about. Not yet tagged/released.
+reasoned about.
+
+**Tagged `v0.1.0` and published to RubyGems.org as `rutidy` `0.1.0`** -- woodie's
+first gem push on this account since `humane-ruby`. `gem build`/`gem push` both
+confirmed clean (`Successfully registered gem: rutidy (0.1.0)`), package contents
+verified via a real `gem build` + unpack in this sandbox beforehand (see the
+gemspec-allowlist entry above) -- only `LICENSE`, `README.md`, `exe/rutidy`, and
+`lib/**/*.rb` ship, `docs/COWORK.md`/`docs/example.png` correctly excluded.
