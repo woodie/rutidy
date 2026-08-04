@@ -108,6 +108,14 @@ same as any dependency-shape change (see
 `~/workspace/woodie/docs/COWORK.md`'s "Shared libraries across sibling repos" for
 why that commit can't be skipped or deferred).
 
+## `-fv`'s unit-suffix color is `#b9e4b4`, not ANSI-16 bright green
+
+A real `vitest run` color-picker readout showed the actual shade; the old
+`:bright_green` (`92`, closer to `#2ee721`) was a guess. Now a 24-bit
+true-color `:vitest_unit` (`38;2;185;228;180`) since no ANSI-16 entry is
+close -- see `gorderly`'s `docs/COWORK.md` for the full note, ported
+identically here.
+
 ## Current status
 
 Confirmed for real on the user's own Mac: `make check` (`standardrb` + full spec
