@@ -19,13 +19,14 @@ module Rutidy
   # @group_level == 0` unconditionally).
   module Render
     ANSI_PREFIX = "\e["
+    # vitest_unit: real Vitest's own unit-suffix color (#b9e4b4); no ANSI-16 entry matches it.
     COLORS = {
       red: "31",
       green: "32",
-      bright_green: "92",
       yellow: "33",
       cyan: "36",
-      gray: "90"
+      gray: "90",
+      vitest_unit: "38;2;185;228;180"
     }.freeze
 
     FailureEntry = Struct.new(:n, :full, :output)
@@ -142,7 +143,7 @@ module Rutidy
         "#{colorize.call(:green, "✔")} #{colorize.call(:gray, name)}"
       when :fv
         number, unit = format_vitest_duration_parts(example[:run_time])
-        "#{colorize.call(:green, "✓")} #{name} #{colorize.call(:green, number)}#{colorize.call(:bright_green, unit)}"
+        "#{colorize.call(:green, "✓")} #{name} #{colorize.call(:green, number)}#{colorize.call(:vitest_unit, unit)}"
       else # :fd
         colorize.call(:green, name)
       end
