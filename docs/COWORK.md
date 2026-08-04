@@ -116,6 +116,15 @@ true-color `:vitest_unit` (`38;2;185;228;180`) since no ANSI-16 entry is
 close -- see `gorderly`'s `docs/COWORK.md` for the full note, ported
 identically here.
 
+**Tagged `v0.1.1` and published to RubyGems in the same session** -- also
+the session that surfaced a real gotcha now documented in
+`~/workspace/woodie/docs/COWORK.md`'s "Tagging releases" section: the first
+`v0.1.1` tag was created before `lib/rutidy/version.rb` got bumped off
+`0.1.0`, so `gem build` kept producing `rutidy-0.1.0.gem` even after the tag
+said `v0.1.1`. Caught when `gem push rutidy-0.1.1.gem` failed with "no such
+file" -- fixed by bumping the version file as its own commit, then deleting
+and recreating the tag on that commit before re-pushing and re-building.
+
 ## Current status
 
 Confirmed for real on the user's own Mac: `make check` (`standardrb` + full spec
